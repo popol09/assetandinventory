@@ -68,5 +68,6 @@
 
         <input type="submit" value="Add Item">
     </form>
+    <button onclick="window.location.href='list_item.php';">Add New Item</button>
 </body>
 </html>
