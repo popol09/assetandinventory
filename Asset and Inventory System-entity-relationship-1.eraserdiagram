@@ -1,0 +1,243 @@
+entity-relationship-diagram
+
+tbl_users [icon: user, color: green] {
+  id int
+  user_id int pk
+  status varchar
+  type varchar
+  firstname varchar
+  middlename varchar
+  lastname varchar
+  position varchar
+  department varchar
+  station varchar
+  mobile varchar
+  email varchar
+  username varchar
+  password varchar
+}
+tbl_user_access [color: green] {
+  id int
+  access_id int pk
+  user_id varchar fk
+  pr_module boolean
+  po_module boolean
+  receiving_module boolean
+  item_module boolean
+  inventory_module boolean
+  iss_module boolean
+  ret_module boolean
+}
+tbl_user_permission [color: green] {
+  id int
+  permission_id int pk
+  user_id int fk
+  pr_module varchar
+  po_module varchar
+  receiving_module varchar
+  inventory_module varchar
+  req_module varchar
+  ret_module varchar
+}
+
+////////////////////////////////////////////
+tbl_items [icon: intercom, color: yellow] {
+  id int
+  item_id int pk
+  type varchar
+  category varchar
+  description varchar
+  unit varchar
+  life_span int
+}
+
+////////////////////////////////////////////
+tbl_supplier [color: magenta] {
+  id int
+  supplier_id int pk
+  supplier_status varchar
+  supplier_name varchar
+  supplier_type varchar
+  contact_person varchar
+  contact_no varchar
+  location varchar
+}
+
+////////////////////////////////////////////
+tbl_pr [color: blue] {
+  id int 
+  pr_no int pk
+  urgency_level varchar
+  need_by_date date
+  attention_to varchar
+  estimated_budget int
+  item_id int fk
+  approver_by_id int fk
+  approval_status varchar
+  approval_date date
+  request_received_by int fk //for removal
+  request_received_date date //for removal
+  gsd_approved_by ind fk
+  gsd_approval_status varchar
+  gsd_approval_date varchar
+  comments varchar
+  date_created date
+  prepared_by_id int fk
+}
+tbl_pr_items [color: blue] {
+  id int
+  pr_item_id int pk
+  pr_no int  fk
+  item_id int fk
+  quantity int
+  price int
+}
+
+////////////////////////////////////////////
+tbl_po [color: cyan] {
+  id int
+  po_no int pk
+  pr_no int fk
+  date_created date
+  suppliers_id int fk
+  attention_to varchar
+  payment_term varchar
+  prepared_by_id int fk
+  approver_by_id int fk
+  approval_status varchar
+  approval_date date
+  delivery_status varchar
+}
+tbl_po_items [color: cyan] {
+  id int
+  po_item_id int pk
+  pr_item_id int fk //for further study
+  po_no int fk
+  item_id int fk
+  quantity int
+  price int
+  status varchar
+}
+//try to add for receiving module
+tbl_receiving [color: violet] {
+  id int
+  rr_no int pk
+  received_date date
+  po_no int fk
+  supplier_id int fk
+  dr_no varchar
+  received_by int fk
+  prepared_by_id int fk
+  date_created date
+}
+tbl_receiving_items [color: violet] {
+  id int
+  rr_item_id int pk
+  rr_no int fk
+  item_id int fk
+  po_item_id int fk
+  quantity int
+}
+////////////////////////////////////////////
+tbl_iss [color: orange] {
+  id int
+  iss_no int pk
+  requested_by_id int fk
+  approver_by_id int fk
+  spproval_status varchar
+  approval_date date
+  issued_by int fk
+  issued_date date
+  date_created date
+}
+tbl_iss_items [color: orange] {
+  id int
+  req_item_id int pk
+  iss_no int fk
+  quantity int
+  price int
+}
+
+////////////////////////////////////////////
+tbl_ret [color: red] {
+  id int
+  ret_no int pk
+  returned_date date
+  date_created date
+  returned_by int fk
+  received_by int fk
+}
+tbl_ret_items [color: red] {
+  id int
+  ret_item_id int pk
+  item_id int fk
+  ret_no int fk
+  quantity  int
+}
+
+
+//Users
+tbl_users.user_id > tbl_user_permission.user_id
+tbl_users.user_id > tbl_user_access.user_id
+
+//Purchase Request
+tbl_pr.prepared_by_id  > tbl_users.user_id
+tbl_pr.approver_by_id  > tbl_users.user_id
+//Purchase Request Items
+tbl_pr_items.pr_no  > tbl_pr.pr_no
+tbl_pr_items.item_id > tbl_items.item_id
+
+//Purchase Order
+tbl_pr.pr_no > tbl_po.pr_no
+tbl_po.approver_by_id > tbl_users.user_id
+tbl_po.prepared_by_id > tbl_users.user_id
+tbl_po.suppliers_id > tbl_supplier.supplier_id
+tbl_po.received_by > tbl_users.user_id
+// Purchase Order Items
+tbl_po_items.po_no > tbl_po.po_no
+tbl_po_items.item_id > tbl_items.item_id
+tbl_po_items.pr_item_id > tbl_pr_items.pr_item_id //for clarification
+
+//Receiving Report
+tbl_receiving.po_no > tbl_po.po_no
+tbl_receiving.supplier_id > tbl_supplier.supplier_id
+tbl_receiving.received_by > tbl_users.user_id
+tbl_receiving.prepared_by_id > tbl_users.user_id
+//Receiving Report Items
+tbl_receiving_items.rr_no > tbl_receiving.rr_no
+tbl_receiving_items.item_id > tbl_items.item_id
+tbl_receiving_items.po_item_id > tbl_po_items.po_item_id
+
+//Supply Issuance
+tbl_iss.approver_by_id  > tbl_users.user_id
+tbl_iss.requested_by_id > tbl_users.user_id
+tbl_iss.request_received_by > tbl_users.user_id
+tbl_iss.issued_by > tbl_users.user_id
+//Request Supplies Item
+tbl_iss_items.iss_no > tbl_iss.iss_no
+tbl_iss_items.req_item_id > tbl_items.item_id
+
+//Returned Supplies
+tbl_ret.returned_by > tbl_users.user_id
+tbl_ret.received_by > tbl_items.user_id
+//Returned Supply Items
+tbl_ret_items.ret_no > tbl_ret.ret_no
+tbl_ret_items.item_id > tbl_items.item_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
