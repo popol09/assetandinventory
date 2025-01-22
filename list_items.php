@@ -48,7 +48,9 @@ $result = $conn->query($sql);
 </head>
 <body>
     <h2>Items List</h2>
-
+    
+    <button onclick="window.location.href='add_item.php';">Add New Item</button>
+    
     <?php
     if ($result->num_rows > 0) {
         echo "<table id='itemsTable' border='1'>

@@ -37,7 +37,9 @@
 
         // Execute the statement
         if ($stmt->execute()) {
-            echo "<p style='color: green;'>New item added successfully.</p>";
+            // Redirect to list_items.php after successful insertion
+            header("Location: list_items.php");
+            exit();
         } else {
             echo "<p style='color: red;'>Error: " . $stmt->error . "</p>";
         }
