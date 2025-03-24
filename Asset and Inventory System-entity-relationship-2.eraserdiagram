@@ -39,7 +39,9 @@ tbl_user_permission [color: green] {
   req_module varchar
   ret_module varchar
 }
-
+//Users
+tbl_users.user_id > tbl_user_permission.user_id
+tbl_users.user_id > tbl_user_access.user_id
 ////////////////////////////////////////////
 tbl_items [icon: intercom, color: yellow] {
   id int
@@ -50,7 +52,7 @@ tbl_items [icon: intercom, color: yellow] {
   unit varchar
   life_span int
 }
-////////////////////////////////////////////
+///////////////////////////////////////////
 tbl_supplier [color: magenta] {
   id int
   supplier_id int pk
@@ -61,8 +63,37 @@ tbl_supplier [color: magenta] {
   contact_no varchar
   location varchar
 }
-
-////////////////////////////////////////////
+///////////////////////////////////////////
+tbl_fix_asset[]{
+  id int pk
+  item_id int fk
+  pr_item_id int fk
+  po_item_id int fk
+  rr_item_id int fk
+  iss_item_id int fk
+  ret_item_id in fk
+  condition varchar
+  serial_no varchar
+}
+//Fix Asset Inventory
+tbl_fix_asset.item_id > tbl_items.item_id
+tbl_fix_asset.po_item_id > tbl_po_items.po_item_id
+tbl_fix_asset.pr_item_id > tbl_pr_items.pr_item_id
+tbl_fix_asset.iss_item_id > tbl_iss_items.iss_item_id
+tbl_fix_asset.ret_item_id > tbl_ret_items.ret_item_id
+tbl_fix_asset.rr_item_id  > tbl_receiving_items.rr_item_id
+///////////////////////////////////////////
+tbl_cnsmble_asset[]{
+  item_id int pk
+  rr_item_id int fk
+  iss_item_id int fk
+  ret_item_id int fk
+}
+tbl_cnsmble_asset.item_id > tbl_items.tbl_items
+tbl_cnsmble_asset.rr_item_id > tbl_receiving_items.rr_item_id
+tbl_cnsmble_asset.iss_item_id > tbl_iss_items.iss_item_id
+tbl_cnsmble_asset.ret_item_id > tbl_ret_items.ret_item_id
+///////////////////////////////////////////
 tbl_pr [color: blue] {
   id int 
   pr_no int pk
@@ -91,8 +122,13 @@ tbl_pr_items [color: blue] {
   quantity int
   price int
 }
-
-////////////////////////////////////////////
+//Purchase Request
+tbl_pr.prepared_by_id  > tbl_users.user_id
+tbl_pr.approver_by_id  > tbl_users.user_id
+//Purchase Request Items
+tbl_pr_items.pr_no  > tbl_pr.pr_no
+tbl_pr_items.item_id > tbl_items.item_id
+/////////////////////////////////////////
 tbl_po [color: cyan] {
   id int
   po_no int pk
@@ -117,7 +153,17 @@ tbl_po_items [color: cyan] {
   price int
   status varchar
 }
-//try to add for receiving module
+//Purchase Order
+tbl_pr.pr_no > tbl_po.pr_no
+tbl_po.approver_by_id > tbl_users.user_id
+tbl_po.prepared_by_id > tbl_users.user_id
+tbl_po.suppliers_id > tbl_supplier.supplier_id
+tbl_po.received_by > tbl_users.user_id
+// Purchase Order Items
+tbl_po_items.po_no > tbl_po.po_no
+tbl_po_items.item_id > tbl_items.item_id
+tbl_po_items.pr_item_id > tbl_pr_items.pr_item_id //for clarification
+///////////////////////////////////////
 tbl_receiving [color: violet] {
   id int
   rr_no int pk
@@ -137,7 +183,16 @@ tbl_receiving_items [color: violet] {
   po_item_id int fk
   quantity int
 }
-////////////////////////////////////////////
+//Receiving Report
+tbl_receiving.po_no > tbl_po.po_no
+tbl_receiving.supplier_id > tbl_supplier.supplier_id
+tbl_receiving.received_by > tbl_users.user_id
+tbl_receiving.prepared_by_id > tbl_users.user_id
+//Receiving Report Items
+tbl_receiving_items.rr_no > tbl_receiving.rr_no
+tbl_receiving_items.item_id > tbl_items.item_id
+tbl_receiving_items.po_item_id > tbl_po_items.po_item_id
+///////////////////////////////////////
 tbl_iss [color: orange] {
   id int
   iss_no int pk
@@ -151,13 +206,21 @@ tbl_iss [color: orange] {
 }
 tbl_iss_items [color: orange] {
   id int
-  req_item_id int pk
+  iss_item_id int pk
+  item_id int fk
   iss_no int fk
   quantity int
   price int
 }
-
-////////////////////////////////////////////
+//Supply Issuance
+tbl_iss.approver_by_id  > tbl_users.user_id
+tbl_iss.requested_by_id > tbl_users.user_id
+tbl_iss.request_received_by > tbl_users.user_id
+tbl_iss.issued_by > tbl_users.user_id
+//Request Supplies Item
+tbl_iss_items.iss_no > tbl_iss.iss_no
+tbl_iss_items.req_item_id > tbl_items.item_id
+///////////////////////////////////
 tbl_ret [color: red] {
   id int
   ret_no int pk
@@ -173,70 +236,13 @@ tbl_ret_items [color: red] {
   ret_no int fk
   quantity  int
 }
-
-
-//Users
-tbl_users.user_id > tbl_user_permission.user_id
-tbl_users.user_id > tbl_user_access.user_id
-
-//Purchase Request
-tbl_pr.prepared_by_id  > tbl_users.user_id
-tbl_pr.approver_by_id  > tbl_users.user_id
-//Purchase Request Items
-tbl_pr_items.pr_no  > tbl_pr.pr_no
-tbl_pr_items.item_id > tbl_items.item_id
-
-//Purchase Order
-tbl_po.pr_no > tbl_pr.pr_no
-tbl_po.approver_by_id > tbl_users.user_id
-tbl_po.prepared_by_id > tbl_users.user_id
-tbl_po.suppliers_id > tbl_supplier.supplier_id
-tbl_po.received_by > tbl_users.user_id
-// Purchase Order Items
-tbl_po_items.po_no > tbl_po.po_no
-tbl_po_items.item_id > tbl_items.item_id
-tbl_po_items.pr_item_id > tbl_pr_items.pr_item_id //for clarification
-
-//Receiving Report
-tbl_receiving.po_no > tbl_po.po_no
-tbl_receiving.supplier_id > tbl_supplier.supplier_id
-tbl_receiving.received_by > tbl_users.user_id
-tbl_receiving.prepared_by_id > tbl_users.user_id
-//Receiving Report Items
-tbl_receiving_items.rr_no > tbl_receiving.rr_no
-tbl_receiving_items.item_id > tbl_items.item_id
-tbl_receiving_items.po_item_id > tbl_po_items.po_item_id
-
-//Supply Issuance
-tbl_iss.approver_by_id  > tbl_users.user_id
-tbl_iss.requested_by_id > tbl_users.user_id
-tbl_iss.request_received_by > tbl_users.user_id
-tbl_iss.issued_by > tbl_users.user_id
-//Request Supplies Item
-tbl_iss_items.iss_no > tbl_iss.iss_no
-tbl_iss_items.req_item_id > tbl_items.item_id
-
 //Returned Supplies
 tbl_ret.returned_by > tbl_users.user_id
 tbl_ret.received_by > tbl_items.user_id
 //Returned Supply Items
 tbl_ret_items.ret_no > tbl_ret.ret_no
 tbl_ret_items.item_id > tbl_items.item_id
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+///////////////////////////////////////////
 
 
 

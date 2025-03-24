@@ -36,7 +36,10 @@ Upon creation of Purchase Request, requestor can input description of the items 
 <!-- eraser-additional-content -->
 ## Diagrams
 <!-- eraser-additional-files -->
-<a href="/Asset and Inventory System-entity-relationship-1.eraserdiagram" data-element-id="ANOeaAUjh3tbiTdI9QnmJ"><img src="/.eraser/152mQ9NCHMzad2sdkrG9___FR17aL3eNWU6KFHXhefrlzVcUDa2___---diagram----58c1376470a0a831e5590fb2a26ca4b6.png" alt="" data-element-id="ANOeaAUjh3tbiTdI9QnmJ" /></a>
+<a href="/Asset and Inventory System-entity-relationship-1.eraserdiagram" data-element-id="ANOeaAUjh3tbiTdI9QnmJ"><img src="/.eraser/152mQ9NCHMzad2sdkrG9___FR17aL3eNWU6KFHXhefrlzVcUDa2___---diagram----bcf57eb84d0d67c0fe8eae514cd241c0.png" alt="" data-element-id="ANOeaAUjh3tbiTdI9QnmJ" /></a>
+<a href="/Asset and Inventory System-entity-relationship-2.eraserdiagram" data-element-id="tgL37L00z3jpDIUwl5Z8h"><img src="/.eraser/152mQ9NCHMzad2sdkrG9___FR17aL3eNWU6KFHXhefrlzVcUDa2___---diagram----e854659220166a490b3066eae31875c2.png" alt="" data-element-id="tgL37L00z3jpDIUwl5Z8h" /></a>
+<a href="/Asset and Inventory System-entity-relationship-3.eraserdiagram" data-element-id="MYI9KX761Ltts8voyCYjb"><img src="/.eraser/152mQ9NCHMzad2sdkrG9___FR17aL3eNWU6KFHXhefrlzVcUDa2___---diagram----98aba9550f37b0aa4f662947b0238664.png" alt="" data-element-id="MYI9KX761Ltts8voyCYjb" /></a>
+<a href="/Asset and Inventory System-flowchart-4.eraserdiagram" data-element-id="qbzmt4dLZt3cD-iIy4zwu"><img src="/.eraser/152mQ9NCHMzad2sdkrG9___FR17aL3eNWU6KFHXhefrlzVcUDa2___---diagram----3643d2cdfa15da5df1b06da505cfcfef.png" alt="" data-element-id="qbzmt4dLZt3cD-iIy4zwu" /></a>
 <!-- end-eraser-additional-files -->
 <!-- end-eraser-additional-content -->
 <!--- Eraser file: https://app.eraser.io/workspace/152mQ9NCHMzad2sdkrG9 --->
